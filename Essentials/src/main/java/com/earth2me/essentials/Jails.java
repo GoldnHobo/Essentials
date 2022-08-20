@@ -273,25 +273,6 @@ public class Jails implements net.ess3.api.IJails {
             }
         }
 
-        @EventHandler(priority = EventPriority.HIGH)
-        public void onJailPlayerTeleport(final PlayerTeleportEvent event) {
-            final User user = ess.getUser(event.getPlayer());
-            if (!user.isJailed() || user.getJail() == null || user.getJail().isEmpty()) {
-                return;
-            }
-
-            try {
-                event.setTo(getJail(user.getJail()));
-            } catch (final Exception ex) {
-                if (ess.getSettings().isDebug()) {
-                    ess.getLogger().log(Level.INFO, tl("returnPlayerToJailError", user.getName(), ex.getLocalizedMessage()), ex);
-                } else {
-                    ess.getLogger().log(Level.INFO, tl("returnPlayerToJailError", user.getName(), ex.getLocalizedMessage()));
-                }
-            }
-            user.sendMessage(tl("jailMessage"));
-        }
-
         @EventHandler(priority = EventPriority.HIGHEST)
         public void onJailPlayerJoin(final PlayerJoinEvent event) {
             final User user = ess.getUser(event.getPlayer());
